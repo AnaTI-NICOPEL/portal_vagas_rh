@@ -75,7 +75,8 @@ function renderVagas() {
     const vagasFiltradas = vagas.filter(v => 
         (v.titulo && v.titulo.toLowerCase().includes(termo)) || 
         (v.setor && v.setor.toLowerCase().includes(termo)) ||
-        (v.atividades && v.atividades.toLowerCase().includes(termo))
+        (v.atividades && v.atividades.toLowerCase().includes(termo)) ||
+        (v.funcao && v.funcao.toLowerCase().includes(termo))
     );
 
     if (vagasFiltradas.length === 0) {
@@ -92,7 +93,7 @@ function renderVagas() {
         return;
     }
 
-    vagas.forEach(v => {
+    vagasFiltradas.forEach(v => {
         const art = document.createElement("article");
         art.className = "vacancy-card";
         // Mostra Título, Setor e a Função resumida no card

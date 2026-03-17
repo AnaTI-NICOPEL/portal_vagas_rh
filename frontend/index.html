@@ -5,6 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Portal de Vagas | Nicopel</title>
   <link rel="stylesheet" href="./assets/app.css">
+  
+  <!-- SEO Básico -->
+  <meta name="description" content="Portal de Vagas Grupo Nicopel. Encontre sua próxima oportunidade em uma das maiores indústrias de embalagens.">
+  <meta name="keywords" content="vagas, emprego, nicopel, londrina, embalagens, rh">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Portal de Vagas | Grupo Nicopel">
+  <meta property="og:description" content="Venha fazer parte do nosso time! Confira as vagas abertas.">
+  <meta property="og:image" content="https://i.ibb.co/zWJstk81/logo-nicopel-8.png">
+  <meta property="og:type" content="website">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="https://i.ibb.co/zWJstk81/logo-nicopel-8.png">
 </head>
 <body>
   <header class="topbar">
@@ -28,15 +41,15 @@
     </section>
 
     <section id="products-showcase">
-      <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
-        <h2 style="margin: 0;">Vagas Abertas</h2>
-        <div class="search-container" style="flex: 1; min-width: 250px; max-width: 400px; position: relative;">
-          <input type="text" id="searchInput" placeholder="Pesquisar por cargo ou palavra-chave..." style="width: 100%; border-radius: 20px; padding: 12px 18px; padding-left: 40px; border: var(--border); outline: none; background: var(--card); color: var(--text); box-shadow: var(--shadow); transition: 0.3s; font-size: 14px;">
-          <span style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); opacity: 0.5;">🔍</span>
+      <div class="section-header-flex">
+        <h2>Vagas Abertas</h2>
+        <div class="search-wrapper">
+          <input type="text" id="searchInput" placeholder="Pesquisar por cargo ou palavra-chave..." class="search-input">
+          <span class="search-icon">🔍</span>
         </div>
       </div>
       <div id="lista-vagas" class="vagas-grid">
-        <div class="loading-spinner" style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--muted);">Buscando vagas disponíveis...</div>
+        <div class="loading-message">Buscando vagas disponíveis...</div>
       </div>
     </section>
 
@@ -99,14 +112,14 @@
     </section>
 
     <section id="newsletter">
-      <div class="newsletter-content" style="text-align: center; padding: 3rem 5%; background: var(--card2);">
+      <div class="newsletter-wrapper">
         <h2>Fique por dentro</h2>
         <p>Receba avisos sobre novas vagas diretamente no seu e-mail.</p>
-        <form class="newsletter-form" id="topNewsletterForm" style="margin-top: 20px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
-          <input type="email" id="topNewsletterEmail" placeholder="Seu melhor e-mail" required style="padding: 10px; border-radius: 8px; border: 1px solid var(--border); width: 100%; max-width: 300px;" />
-          <button type="submit" id="topNewsletterBtn" class="btn-primary-grande" style="width: auto; padding: 10px 20px;">Cadastrar</button>
+        <form class="newsletter-form-flex" id="topNewsletterForm">
+          <input type="email" id="topNewsletterEmail" placeholder="Seu melhor e-mail" required class="newsletter-input" />
+          <button type="submit" id="topNewsletterBtn" class="btn-primary-grande newsletter-btn">Cadastrar</button>
         </form>
-        <p id="topNewsletterFeedback" style="margin-top: 15px; font-size: 14px; font-weight: bold;"></p>
+        <p id="topNewsletterFeedback" class="newsletter-feedback"></p>
       </div>
     </section>
   </main>
@@ -147,10 +160,10 @@
           <p id="mBeneficios"></p>
         </div>
 
-        <div id="bloco-link-pipefy" style="display:none; margin-top:25px; padding:20px; background:var(--card2); border-radius:14px; border:1px dashed var(--brand); text-align:center;">
-          <h3 style="margin-bottom:10px;">Formulário de Candidatura</h3>
-          <p style="margin-bottom:15px; font-size: 0.9rem;">Para se candidatar, clique no botão abaixo:</p>
-          <a id="mLinkPipefy" href="#" target="_blank" class="btn-primary-grande" style="text-decoration:none; display:inline-block; width: auto; padding: 12px 30px;">
+        <div id="bloco-link-pipefy" class="pipefy-notice">
+          <h3>Formulário de Candidatura</h3>
+          <p>Para se candidatar, clique no botão abaixo:</p>
+          <a id="mLinkPipefy" href="#" target="_blank" class="btn-primary-grande pipefy-btn">
             Candidatar-se agora
           </a>
         </div>
@@ -187,8 +200,7 @@
 
 
 <script>
-  const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:3000' : '';
-
+  // API_BASE já declarado no app.js globalmente
   // Lógica de inscrição na Newsletter
   async function handleNewsletterSubmit(e, emailInputId, btnId, feedbackId) {
     e.preventDefault();

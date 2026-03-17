@@ -209,4 +209,119 @@ button, .btn {
   }
 }
 
+/* INTERNAL STYLES FROM admin.html */
+.admin-logo {
+  height: 40px;
+  display: block;
+}
+.select-wrapper {
+  position: relative;
+  width: 100%;
+}
+.select-wrapper::after {
+  content: '▼';
+  font-size: 10px;
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  opacity: 0.5;
+}
+#delBackdrop { 
+  position: fixed; 
+  inset: 0; 
+  background: rgba(0,0,0,0.8); 
+  display: none; 
+  align-items: center; 
+  justify-content: center; 
+  z-index: 1000; 
+}
+.hidden { display: none; }
+
+/* --- AJUSTE ESPECÍFICO PARA O PAINEL ADMIN (650px) --- */
+.admin-page .container {
+  max-width: 650px;
+}
+
+.admin-page .form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background: rgba(128,128,128,0.05);
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid rgba(128,128,128,0.1);
+}
+
+.admin-page label {
+  font-size: 11px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 5px;
+  display: block;
+  opacity: 0.8;
+}
+
+.admin-page input, 
+.admin-page select, 
+.admin-page textarea {
+  padding: 12px !important;
+  font-size: 14px !important;
+  border-radius: 8px !important;
+  border: 1px solid rgba(128,128,128,0.2) !important;
+  background-color: #1a1a1a !important;
+  color: #ffffff !important;
+}
+
+.admin-page select option {
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+
+.admin-page .jobRow {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(128,128,128,0.2);
+  padding: 15px 25px;
+  border-radius: 12px;
+}
+
+/* STRUCTURAL CLASSES FOR CLEAN HTML */
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.admin-brand-group {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.admin-panel-title {
+  font-size: 1.3rem; 
+  margin: 0;
+}
+.admin-actions-group {
+  display: flex;
+  gap: 10px;
+}
+.admin-form-title {
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+.admin-form-footer {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+.btn-submit {
+  flex: 2;
+}
+.btn-cancel {
+  flex: 1;
+}
+.admin-list-container {
+  margin-top: 40px;
+}
 

@@ -25,9 +25,43 @@ export const initDb = async () => {
         setor TEXT NOT NULL, 
         atividades TEXT NOT NULL, 
         beneficios TEXT NOT NULL, 
+        experiencia TEXT,
+        funcao TEXT,
+        tipo_emprego TEXT,
+        setores_vaga TEXT,
+        requisitos TEXT,
+        competencias TEXT,
+        remuneracao TEXT,
         pipefy_record_id TEXT, 
         created_at TIMESTAMPTZ NOT NULL DEFAULT now()
       );
+
+      -- Migração: Adiciona colunas se não existirem
+      DO $$ 
+      BEGIN 
+        IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='vagas' AND column_name='experiencia') THEN
+          ALTER TABLE vagas ADD COLUMN experiencia TEXT;
+        END IF;
+        IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='vagas' AND column_name='funcao') THEN
+          ALTER TABLE vagas ADD COLUMN funcao TEXT;
+        END IF;
+        IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='vagas' AND column_name='tipo_emprego') THEN
+          ALTER TABLE vagas ADD COLUMN tipo_emprego TEXT;
+        END IF;
+        IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='vagas' AND column_name='setores_vaga') THEN
+          ALTER TABLE vagas ADD COLUMN setores_vaga TEXT;
+        END IF;
+        IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='vagas' AND column_name='requisitos') THEN
+          ALTER TABLE vagas ADD COLUMN requisitos TEXT;
+        END IF;
+        IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='vagas' AND column_name='competencias') THEN
+          ALTER TABLE vagas ADD COLUMN competencias TEXT;
+        END IF;
+        IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='vagas' AND column_name='remuneracao') THEN
+          ALTER TABLE vagas ADD COLUMN remuneracao TEXT;
+        END IF;
+      END $$;
+
       CREATE TABLE IF NOT EXISTS newsletter (
         id BIGSERIAL PRIMARY KEY,
         email TEXT UNIQUE NOT NULL,

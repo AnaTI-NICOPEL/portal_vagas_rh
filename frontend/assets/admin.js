@@ -11,7 +11,17 @@ const vagaIdInput = document.getElementById("vagaId");
 const tituloInput = document.getElementById("titulo");
 const setorInput = document.getElementById("setor");
 const atividadesInput = document.getElementById("atividades");
+const requisitosInput = document.getElementById("requisitos");
+const competenciasInput = document.getElementById("competencias");
+const remuneracaoInput = document.getElementById("remuneracao");
 const beneficiosInput = document.getElementById("beneficios");
+
+// Novos inputs adicionados
+const experienciaInput = document.getElementById("experiencia");
+const funcaoInput = document.getElementById("funcao");
+const tipoEmpregoInput = document.getElementById("tipo_emprego");
+const setoresVagaInput = document.getElementById("setores_vaga");
+
 const submitBtn = document.getElementById("submitBtn");
 
 let vagas = [];
@@ -42,7 +52,17 @@ window.fillForm = (id) => {
   tituloInput.value = v.titulo;
   setorInput.value = v.setor;
   atividadesInput.value = v.atividades;
+  requisitosInput.value = v.requisitos || "";
+  competenciasInput.value = v.competencias || "";
+  remuneracaoInput.value = v.remuneracao || "";
   beneficiosInput.value = v.beneficios;
+  
+  // Novos campos
+  experienciaInput.value = v.experiencia || "";
+  funcaoInput.value = v.funcao || "";
+  tipoEmpregoInput.value = v.tipo_emprego || "";
+  setoresVagaInput.value = v.setores_vaga || "";
+
   submitBtn.textContent = "Salvar alterações";
   window.scrollTo(0,0);
 };
@@ -63,7 +83,14 @@ form.addEventListener("submit", async (e) => {
       titulo: tituloInput.value,
       setor: setorInput.value,
       atividades: atividadesInput.value,
-      beneficios: beneficiosInput.value
+      requisitos: requisitosInput.value,
+      competencias: competenciasInput.value,
+      remuneracao: remuneracaoInput.value,
+      beneficios: beneficiosInput.value,
+      experiencia: experienciaInput.value,
+      funcao: funcaoInput.value,
+      tipo_emprego: tipoEmpregoInput.value,
+      setores_vaga: setoresVagaInput.value
     })
   });
 
