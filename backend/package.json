@@ -1,0 +1,22 @@
+{
+  "name": "portal-vagas-backend",
+  "version": "1.0.0",
+  "description": "API para portal de vagas (Postgres)",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "env": "^0.0.2",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.1.1",
+    "node-fetch": "^2.7.0",
+    "nodemailer": "^6.10.1",
+    "pg": "^8.12.0"
+  }
+}

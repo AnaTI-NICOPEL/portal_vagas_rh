@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin • Nicopel</title>
+  <link rel="stylesheet" href="./assets/admin.css">
+  <style>
+    /* Reset e Layout */
+    .container { max-width: 650px; padding: 20px; margin: 0 auto; }
+    
+    .form { display: flex; flex-direction: column; gap: 15px; background: rgba(128,128,128,0.05); padding: 25px; border-radius: 12px; border: 1px solid rgba(128,128,128,0.1); }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .full-row { width: 100%; }
+    
+    label { font-size: 11px; text-transform: uppercase; font-weight: 700; margin-bottom: 5px; display: block; opacity: 0.8; }
+
+    /* ESTILO DO SELECT E INPUTS */
+    input, select, textarea { 
+      padding: 12px !important; 
+      font-size: 14px !important; 
+      border-radius: 8px !important; 
+      width: 100%; 
+      border: 1px solid rgba(128,128,128,0.2); 
+      background-color: #1a1a1a; /* Fundo escuro fixo para teste */
+      color: #ffffff; 
+      appearance: none; /* Remove a seta padrão do navegador */
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      outline: none;
+    }
+
+    /* Adiciona uma seta personalizada para o Select */
+    .select-wrapper {
+      position: relative;
+      width: 100%;
+    }
+    .select-wrapper::after {
+      content: '▼';
+      font-size: 10px;
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    /* Estilo das opções dentro do select */
+    select option {
+      background-color: #1a1a1a;
+      color: #ffffff;
+      padding: 10px;
+    }
+
+    textarea { height: 100px; resize: vertical; line-height: 1.5; }
+
+    /* Cards da Lista */
+    .jobRow { 
+        display: flex; justify-content: space-between; align-items: center; 
+        background: rgba(255,255,255,0.03); border: 1px solid rgba(128,128,128,0.2);
+        padding: 15px 25px; border-radius: 12px; margin-bottom: 12px; box-shadow: none;
+    }
+    .jobRow button { 
+        background: rgba(255,255,255,0.05); border: none; border-radius: 8px; 
+        width: 40px; height: 40px; cursor: pointer; font-size: 1.2rem;
+    }
+
+    #delBackdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 1000; }
+    .hidden { display: none; }
+    .pill { cursor: pointer; border: none; padding: 8px 15px; border-radius: 20px; background: rgba(128,128,128,0.1); color: inherit; }
+    
+    /* Estilo da Logo */
+    .admin-logo {
+      height: 40px;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+      <div style="display:flex; align-items: center; gap: 15px;">
+        <img id="site-logo" src="https://i.ibb.co/zWJstk81/logo-nicopel-8.png" alt="Nicopel" class="admin-logo">
+        <h1 style="font-size: 1.3rem; margin:0;">Painel Admin</h1>
+      </div>
+      <div style="display:flex; gap:10px;">
+        <button id="theme-toggle" class="pill">🌙</button>
+        <button type="button" class="pill" id="btnLogout" style="position: relative; z-index: 999; cursor: pointer;">
+          Sair
+        </button>
+      </div>
+    </header>
+
+    <form id="form" class="form">
+      <h2 id="heroTitle" style="font-size: 1.1rem; margin-bottom: 5px;">Cadastrar Vaga</h2>
+      <input id="vagaId" type="hidden">
+      
+      <div class="full-row">
+        <label for="titulo">Título da Vaga</label>
+        <input id="titulo" required placeholder="Ex: Auxiliar de Produção">
+      </div>
+
+      <div class="full-row">
+        <label for="setor">Departamento</label>
+        <div class="select-wrapper">
+          <select id="setor" required>
+            <option value="" disabled selected>Selecione um departamento...</option>
+            <option value="Administrativo">Administrativo</option>
+            <option value="CS">CS</option>
+            <option value="Financeiro">Financeiro</option>
+            <option value="Jurídico">Jurídico</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Produto">Produto</option>
+            <option value="RH">RH</option>
+            <option value="TI">TI</option>
+            <option value="Vendas">Vendas</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="experiencia">Nível de Experiência</label>
+          <input id="experiencia" placeholder="Júnior, Pleno...">
+        </div>
+        <div>
+          <label for="funcao">Função</label>
+          <input id="funcao" placeholder="Operacional, Analista...">
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="tipo_emprego">Tipo de Emprego</label>
+          <input id="tipo_emprego" placeholder="CLT, PJ...">
+        </div>
+        <div>
+          <label for="setores_vaga">Setores</label>
+          <input id="setores_vaga" placeholder="Tecnologia, Indústria...">
+        </div>
+      </div>
+
+      <div class="full-row">
+        <label for="atividades">Principais Responsabilidades</label>
+        <textarea id="atividades" required></textarea>
+      </div>
+
+      <div class="full-row">
+        <label for="requisitos">Requisitos</label>
+        <textarea id="requisitos"></textarea>
+      </div>
+
+      <div class="full-row">
+        <label for="competencias">Competências Comportamentais</label>
+        <textarea id="competencias"></textarea>
+      </div>
+
+      <div class="full-row">
+        <label for="beneficios">Benefícios</label>
+        <textarea id="beneficios" required></textarea>
+      </div>
+
+      <div class="full-row">
+        <label for="remuneracao">Remuneração</label>
+        <input id="remuneracao">
+      </div>
+
+      <div class="full-row" style="display: none;">
+        <!-- Elemento oculto apenas para manter a estrutura original se existia algo de CSS atrelado, mas removendo a obrigatoriedade -->
+      </div>
+
+      <div style="display:flex; gap:10px; margin-top: 10px;">
+        <button id="submitBtn" type="submit" class="btn" style="flex:2;">Salvar Vaga</button>
+        <button id="cancelEditBtn" type="button" class="btn-secondary hidden" style="flex:1;">Cancelar</button>
+      </div>
+    </form>
+
+    <div id="adminList" style="margin-top: 40px;"></div>
+  </div>
+
+  <!-- O modal delBackdrop foi removido pois a exclusão agora usa o token JWT implicitamente -->
+
+  <script src="./assets/admin.js"></script>
+  <script>
+    // Lógica de Tema e Logo
+    const tBtn = document.getElementById("theme-toggle");
+    const bEl = document.body;
+    const logoImg = document.getElementById("site-logo");
+    const logoLight = "https://i.ibb.co/zWJstk81/logo-nicopel-8.png";
+    const logoDark = "https://i.ibb.co/nLkLD0f/GRUPO-NICOPEL-1.png";
+
+    function updateTheme(theme) {
+      const isDark = theme === "dark";
+      bEl.classList.toggle("dark", isDark);
+      tBtn.textContent = isDark ? "☀️" : "🌙";
+      logoImg.src = isDark ? logoDark : logoLight;
+      localStorage.setItem("theme", theme);
+    }
+
+    tBtn.onclick = () => {
+      const currentTheme = bEl.classList.contains("dark") ? "light" : "dark";
+      updateTheme(currentTheme);
+    };
+
+    // Inicialização
+    if (localStorage.getItem("theme") === "dark") {
+      updateTheme("dark");
+    } else {
+      updateTheme("light");
+    }
+  </script>
+</body>
+</html>

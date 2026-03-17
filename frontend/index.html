@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal de Vagas | Nicopel</title>
+  <link rel="stylesheet" href="./assets/app.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img id="site-logo" src="https://i.ibb.co/zWJstk81/logo-nicopel-8.png" alt="Logo Nicopel" class="site-logo" />
+    </div>
+    <div class="topbar-actions">
+      <a href="https://www.nicopel.com.br/" target="_blank" class="btn-home" title="Ir para o site Nicopel">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        Site Nicopel
+      </a>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Alternar tema">🌙</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="hero">
+      <h1>Portal de Vagas Nicopel</h1>
+      <h2>Sua carreira começa aqui</h2>
+      <p>Explore as oportunidades abertas e junte-se ao nosso time.</p>
+    </section>
+
+    <section id="products-showcase">
+      <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+        <h2 style="margin: 0;">Vagas Abertas</h2>
+        <div class="search-container" style="flex: 1; min-width: 250px; max-width: 400px; position: relative;">
+          <input type="text" id="searchInput" placeholder="Pesquisar por cargo ou palavra-chave..." style="width: 100%; border-radius: 20px; padding: 12px 18px; padding-left: 40px; border: var(--border); outline: none; background: var(--card); color: var(--text); box-shadow: var(--shadow); transition: 0.3s; font-size: 14px;">
+          <span style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); opacity: 0.5;">🔍</span>
+        </div>
+      </div>
+      <div id="lista-vagas" class="vagas-grid">
+        <div class="loading-spinner" style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--muted);">Buscando vagas disponíveis...</div>
+      </div>
+    </section>
+
+    <section id="institutional">
+      <div class="section-header">
+        <h2>Sobre nós</h2>
+        <p>A NICOPEL é uma empresa de embalagens, situada em Londrina no Paraná, cuja missão é desenvolver embalagens com agilidade e alto padrão de qualidade, agregando valor aos produtos de nossos clientes.</p>
+      </div>
+      <div class="institucional-container">
+        <div class="institucional-item card-identidade">
+          <div class="institucional-titulo">
+            <img src="https://i.ibb.co/jvRGcSHB/missao.png" alt="Missão" class="institucional-icone" />
+            <h3>Missão</h3>
+          </div>
+          <div class="card-conteudo">
+            <p>Fortalecer as marcas dos nossos clientes contribuindo para o sucesso de todos por meio do desenvolvimento de embalagens personalizadas e sustentáveis.</p>
+          </div>
+        </div>
+
+        <div class="institucional-item card-identidade">
+          <div class="institucional-titulo">
+            <img src="https://i.ibb.co/tPb8j2K8/visao.png" alt="Visão" class="institucional-icone" />
+            <h3>Visão</h3>
+          </div>
+          <div class="card-conteudo">
+            <p>Ser referência nacional em soluções de embalagens sustentáveis cartonadas, reconhecida pela excelência, inovação e responsabilidade social.</p>
+          </div>
+        </div>
+
+        <div class="institucional-item card-identidade">
+          <div class="institucional-titulo">
+            <img src="https://i.ibb.co/RGrwKHdx/valores.png" alt="Valores" class="institucional-icone" />
+            <h3>Valores</h3>
+          </div>
+          <div class="card-conteudo">
+            <p>Respeito, Ética e Foco total no sucesso do cliente.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features-break">
+      <div class="section-header">
+        <h2>Por que trabalhar conosco?</h2>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <h3>Crescimento</h3>
+          <p>Oportunidades reais de plano de carreira e desenvolvimento.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Sustentabilidade</h3>
+          <p>Trabalhe em uma empresa que respeita o meio ambiente.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Cultura</h3>
+          <p>Ambiente colaborativo focado no bem-estar da equipe.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="newsletter">
+      <div class="newsletter-content" style="text-align: center; padding: 3rem 5%; background: var(--card2);">
+        <h2>Fique por dentro</h2>
+        <p>Receba avisos sobre novas vagas diretamente no seu e-mail.</p>
+        <form class="newsletter-form" id="topNewsletterForm" style="margin-top: 20px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+          <input type="email" id="topNewsletterEmail" placeholder="Seu melhor e-mail" required style="padding: 10px; border-radius: 8px; border: 1px solid var(--border); width: 100%; max-width: 300px;" />
+          <button type="submit" id="topNewsletterBtn" class="btn-primary-grande" style="width: auto; padding: 10px 20px;">Cadastrar</button>
+        </form>
+        <p id="topNewsletterFeedback" style="margin-top: 15px; font-size: 14px; font-weight: bold;"></p>
+      </div>
+    </section>
+  </main>
+
+  <div id="backdrop" class="candidate-backdrop">
+    <div class="candidate-modal">
+      <div class="candidate-modal-header">
+        <div>
+          <h2 id="mTitle">Nome da Vaga</h2>
+          <p id="mSub" class="candidate-subtitle">Setor | Nível</p>
+        </div>
+        <button id="mClose" type="button" class="candidate-close">&times;</button>
+      </div>
+      
+      <div class="vaga-detalhes">
+        <div class="vaga-bloco">
+          <h3>Principais Responsabilidades</h3>
+          <p id="mDescricao"></p>
+        </div>
+
+        <div class="vaga-bloco">
+          <h3>Requisitos</h3>
+          <p id="mRequisitos"></p>
+        </div>
+
+        <div class="vaga-bloco">
+          <h3>Competências Comportamentais</h3>
+          <p id="mCompetencias"></p>
+        </div>
+
+        <div class="vaga-bloco">
+          <h3>Remuneração</h3>
+          <p id="mRemuneracao"></p>
+        </div>
+
+        <div class="vaga-bloco">
+          <h3>Benefícios</h3>
+          <p id="mBeneficios"></p>
+        </div>
+
+        <div id="bloco-link-pipefy" style="display:none; margin-top:25px; padding:20px; background:var(--card2); border-radius:14px; border:1px dashed var(--brand); text-align:center;">
+          <h3 style="margin-bottom:10px;">Formulário de Candidatura</h3>
+          <p style="margin-bottom:15px; font-size: 0.9rem;">Para se candidatar, clique no botão abaixo:</p>
+          <a id="mLinkPipefy" href="#" target="_blank" class="btn-primary-grande" style="text-decoration:none; display:inline-block; width: auto; padding: 12px 30px;">
+            Candidatar-se agora
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="./login_admin.html" class="admin-access" title="Área do Recrutador">
+    <div class="admin-avatar">
+      <img src="https://i.ibb.co/M58LXZqG/person-round-svgrepo-com.png" alt="person round svgrepo com" border="0">
+    </div>
+  </a>
+
+  <script src="./assets/app.js"></script>
+  <script>
+    const toggle = document.getElementById("theme-toggle");
+    const body = document.body;
+    const logo = document.getElementById("site-logo");
+    const logoLight = "https://i.ibb.co/zWJstk81/logo-nicopel-8.png";
+    const logoDark = "https://i.ibb.co/nLkLD0f/GRUPO-NICOPEL-1.png";
+
+    function updateTheme(theme) {
+      const isDark = theme === "dark";
+      body.classList.toggle("dark", isDark);
+      toggle.textContent = isDark ? "☀️" : "🌙";
+      logo.src = isDark ? logoDark : logoLight;
+      localStorage.setItem("theme", theme);
+    }
+    updateTheme(localStorage.getItem("theme") || "light");
+    toggle.addEventListener("click", () => {
+      updateTheme(body.classList.contains("dark") ? "light" : "dark");
+    });
+  </script>
+
+
+<script>
+  const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:3000' : '';
+
+  // Lógica de inscrição na Newsletter
+  async function handleNewsletterSubmit(e, emailInputId, btnId, feedbackId) {
+    e.preventDefault();
+    const emailInput = document.getElementById(emailInputId);
+    const btn = document.getElementById(btnId);
+    const feedback = document.getElementById(feedbackId);
+    const email = emailInput.value.trim();
+
+    if (!email) return;
+
+    try {
+      btn.disabled = true;
+      btn.textContent = "Aguarde...";
+      feedback.textContent = "";
+
+      const res = await fetch(`${API_BASE}/api/newsletter`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email })
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        feedback.style.color = "green";
+        feedback.textContent = data.message || "E-mail inscrito com sucesso!";
+        emailInput.value = "";
+      } else {
+        feedback.style.color = "red";
+        feedback.textContent = data.error || "Ocorreu um erro no servidor.";
+      }
+    } catch (err) {
+      feedback.style.color = "red";
+      feedback.textContent = "Erro de conexão. Tente novamente mais tarde.";
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "Inscrever-se";
+    }
+  }
+
+  const topForm = document.getElementById("topNewsletterForm");
+  if(topForm) {
+      topForm.addEventListener("submit", (e) => handleNewsletterSubmit(e, "topNewsletterEmail", "topNewsletterBtn", "topNewsletterFeedback"));
+  }
+
+  const bottomForm = document.getElementById("bottomNewsletterForm");
+  if (bottomForm) {
+      bottomForm.addEventListener("submit", (e) => handleNewsletterSubmit(e, "bottomNewsletterEmail", "bottomNewsletterBtn", "bottomNewsletterFeedback"));
+  }
+</script>
+
+<!-- Rodapé -->
+<footer class="site-footer">
+  <div class="footer-inner">
+
+    <div class="footer-main">
+
+      <!-- Coluna Esquerda: Marca + Social -->
+      <div class="footer-brand-area">
+        <a href="https://www.nicopel.com.br/" class="footer-brand" target="_blank">
+          GRUPO <span>NICOPEL</span>
+        </a>
+        <p class="footer-desc">
+          Embalagens que protegem, vendem e valorizam sua marca.<br>
+          Tecnologia gráfica de ponta e compromisso com a sustentabilidade.
+        </p>
+        <div class="social-links">
+          <a href="https://www.instagram.com/nicopelembalagens/" target="_blank" class="social-btn" title="Instagram">
+            <svg fill="currentColor" viewBox="0 0 24 24">
+              <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2m0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5a4.25 4.25 0 0 0 4.25 4.25h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5a4.25 4.25 0 0 0-4.25-4.25h-8.5M12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10m0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7M18 5a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+            </svg>
+          </a>
+          <a href="https://www.linkedin.com/company/65532110/" target="_blank" class="social-btn" title="LinkedIn">
+            <svg fill="currentColor" viewBox="0 0 24 24">
+              <path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Divisor vertical -->
+      <div class="footer-divider"></div>
+
+      <!-- Coluna Direita: Localização + Contato -->
+      <div class="footer-location-area">
+        <div class="footer-location-header">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+          <span>Onde Estamos</span>
+        </div>
+
+        <div class="footer-location-body">
+          <!-- Mini-mapa -->
+          <div class="mini-map-container">
+            <a href="https://www.google.com/maps/place/Nicopel+Embalagens/@-23.2868426,-51.1477641,17z" target="_blank" class="map-link-overlay" aria-label="Abrir no Google Maps"></a>
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3663.685984533066!2d-51.14776408442646!3d-23.28684258481954!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94eb4346c69c53b5%3A0x98262797c8c84b0b!2sNicopel%20Embalagens!5e0!3m2!1spt-BR!2sbr!4v1709500000000!5m2!1spt-BR!2sbr"
+              width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade" class="mini-map-iframe">
+            </iframe>
+          </div>
+
+          <!-- Informações -->
+          <div class="footer-contact-details">
+            <p class="footer-address">Rod. Carlos João Strass, 780<br>Jardim Tropical, Londrina – PR</p>
+            <a href="https://www.google.com/maps/place/Nicopel+Embalagens/@-23.2868426,-51.1477641,17z" target="_blank" class="gps-link">Abrir no GPS →</a>
+            <div class="footer-contacts">
+              <a href="tel:+554333384537" class="footer-contact-item">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                (43) 3338-4537
+              </a>
+              <a href="mailto:contato@nicopel.com.br" class="footer-contact-item">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                contato@nicopel.com.br
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Linha inferior -->
+    <div class="footer-bottom">
+      <p>© <script>document.write(new Date().getFullYear())</script> Grupo Nicopel. Todos os direitos reservados.</p>
+    </div>
+
+  </div>
+</footer>
+</body>
+</html>
