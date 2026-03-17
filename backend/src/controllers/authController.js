@@ -5,11 +5,9 @@ export const login = (req, res) => {
 
   const ADMIN_USER = process.env.ADMIN_USER;
   const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
-  const secret = process.env.JWT_SECRET;
-
   // Verificação de segurança para configuração do servidor
   if (!secret || !ADMIN_USER || !ADMIN_PASSWORD) {
-    console.error("FATAL: Variáveis de ambiente (ADMIN_USER, ADMIN_PASSWORD ou JWT_SECRET) não definidas.");
+    console.error("DEBUG RENDER: ADMIN_USER:", !!ADMIN_USER, "ADMIN_PASSWORD:", !!ADMIN_PASSWORD, "JWT_SECRET:", !!secret);
     return res.status(500).json({ 
       error: "Erro de configuração no servidor. Verifique o painel do Render (Environment)." 
     });
@@ -20,6 +18,6 @@ export const login = (req, res) => {
     return res.json({ ok: true, token });
   }
   
-  console.warn(`Tentativa de login falhou para o usuário: ${usuario}`);
+  console.warn(`Tentativa de login falhou. Recebido: [${usuario}], Esperado (length): [${ADMIN_USER?.length}]`);
   res.status(401).json({ error: "Credenciais inválidas" });
 };

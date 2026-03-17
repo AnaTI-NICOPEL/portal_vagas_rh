@@ -1,11 +1,4 @@
 import nodemailer from "nodemailer";
-import dotenv from "dotenv";
-import path from "path";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-dotenv.config({ path: path.join(__dirname, "../../.env") });
 
 // Configuração do transportador de e-mail usando Nodemailer
 // Em produção, isso deve ser configurado no .env com os dados do seu provedor SMTP (Gmail, SendGrid, Hostinger, etc)

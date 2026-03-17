@@ -1,12 +1,7 @@
 import pkg from "pg";
-import dotenv from "dotenv";
-import path from "path";
-import { fileURLToPath } from "url";
-
-// Garante que o .env seja lido mesmo se esse arquivo for importado primeiro
+// Garante que o banco seja inicializado. As variáveis vêm do entry point.
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-dotenv.config({ path: path.join(__dirname, "../../.env") });
 
 const { Pool } = pkg;
 

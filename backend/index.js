@@ -1,4 +1,4 @@
-import dotenv from "dotenv";
+import 'dotenv/config';
 import path from "path";
 import { fileURLToPath } from "url";
 import express from "express";
@@ -8,8 +8,6 @@ import apiRoutes from "./src/routes/api.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-dotenv.config({ path: path.join(__dirname, ".env") });
 
 const app = express();
 
@@ -24,6 +22,6 @@ app.use("/api", apiRoutes);
 
 // Inicializar banco e servidor
 initDb().then(() => {
-  const POrt = process.env.PORT || 3000;
-  app.listen(POrt, () => console.log(`🚀 Servidor rodando em http://localhost:${POrt}`));
+  const port = process.env.PORT || 3000;
+  app.listen(port, () => console.log(`🚀 Servidor rodando em http://localhost:${port}`));
 }).catch(console.error);
