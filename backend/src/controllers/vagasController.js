@@ -1,5 +1,5 @@
 import pool from "../config/db.js";
-import { createPipefyJobRecord } from "../config/pipefy.js";
+import { createPipefyJobRecord, updatePipefyJobRecord, deletePipefyJobRecord } from "../config/pipefy.js";
 import { enviarAvisoNovaVaga } from "../config/mail.js";
 
 export const listarVagas = async (req, res) => {
@@ -67,6 +67,16 @@ export const editarVaga = async (req, res) => {
       experiencia, funcao, tipo_emprego, setores_vaga 
     } = req.body;
     
+    // --- Sincronização Pipefy ---
+    try {
+      const { rows: current } = await pool.query("SELECT pipefy_record_id FROM vagas WHERE id = $1", [id]);
+      if (current[0]?.pipefy_record_id) {
+        await updatePipefyJobRecord(current[0].pipefy_record_id, { titulo, setor });
+      }
+    } catch (pipefyErr) {
+      console.error("Erro ao atualizar no Pipefy:", pipefyErr);
+    }
+
     await pool.query(
       `UPDATE vagas SET 
         titulo=$1, setor=$2, atividades=$3, requisitos=$4, 
@@ -88,6 +98,17 @@ export const editarVaga = async (req, res) => {
 export const excluirVaga = async (req, res) => {
   try {
     const { id } = req.params;
+    
+    // --- Sincronização Pipefy ---
+    try {
+      const { rows: current } = await pool.query("SELECT pipefy_record_id FROM vagas WHERE id = $1", [id]);
+      if (current[0]?.pipefy_record_id) {
+        await deletePipefyJobRecord(current[0].pipefy_record_id);
+      }
+    } catch (pipefyErr) {
+      console.error("Erro ao excluir no Pipefy:", pipefyErr);
+    }
+
     await pool.query("DELETE FROM vagas WHERE id = $1", [id]);
     res.json({ ok: true });
   } catch (e) {

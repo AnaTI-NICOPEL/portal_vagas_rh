@@ -32,43 +32,45 @@ export const transporter = nodemailer.createTransport({
 export const enviarAvisoNovaVaga = async (listaEmails, tituloVaga, setor) => {
   if (!listaEmails || listaEmails.length === 0) return;
 
-  const mailOptions = {
-    from: `"Portal de Vagas Nicopel" <${process.env.SMTP_USER || 'no-reply@nicopel.com'}>`, // remetente
-    to: process.env.SMTP_USER || 'no-reply@nicopel.com', // destinatário principal
-    bcc: listaEmails.join(','), // lista de candidatos (Cópia Oculta para privacidade)
-    subject: `Nova Vaga Aberta: ${tituloVaga}`, // Assunto
-    html: `
-      <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
-        <h2 style="color: #000;">Temos uma novidade para você!</h2>
-        <p>Olá,</p>
-        <p>A Nicopel acabou de publicar uma nova oportunidade de carreira que pode ser do seu interesse.</p>
-        
-        <div style="background-color: #f9f9f9; padding: 15px; border-left: 5px solid #b8e900; margin: 20px 0;">
-          <h3 style="margin-top: 0;">${tituloVaga}</h3>
-          <p><strong>Departamento:</strong> ${setor}</p>
+  console.log(`Iniciando envio individual para ${listaEmails.length} inscritos...`);
+  
+  // Para cada e-mail, enviamos uma mensagem individual para que possamos personalizar o link de descadastro
+  const promises = listaEmails.map(async (email) => {
+    const mailOptions = {
+      from: `"Portal de Vagas Nicopel" <${process.env.SMTP_USER || 'no-reply@nicopel.com'}>`,
+      to: email, // Envio direto
+      subject: `Nova Vaga Aberta: ${tituloVaga}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
+          <h2 style="color: #000;">Temos uma novidade para você!</h2>
+          <p>Olá,</p>
+          <p>A Nicopel acabou de publicar uma nova oportunidade de carreira que pode ser do seu interesse.</p>
+          
+          <div style="background-color: #f9f9f9; padding: 15px; border-left: 5px solid #b8e900; margin: 20px 0;">
+            <h3 style="margin-top: 0;">${tituloVaga}</h3>
+            <p><strong>Departamento:</strong> ${setor}</p>
+          </div>
+
+          <p>Acesse o nosso portal para ler as responsabilidades, requisitos e se candidatar pelo Pipefy.</p>
+          <p><a href="${process.env.FRONTEND_URL || 'http://localhost:3000'}/index.html" style="background-color: #b8e900; color: #000; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold;">Ver vagas abertas</a></p>
+
+          <p style="margin-top: 30px; font-size: 11px; color: #777; border-top: 1px solid #eee; padding-top: 15px;">
+            Você está recebendo este e-mail porque se inscreveu na nossa Newsletter de Carreiras.<br>
+            Se não deseja mais receber avisos, <a href="${process.env.FRONTEND_URL || 'http://localhost:3000'}/api/newsletter/unsubscribe?email=${encodeURIComponent(email)}">clique aqui para cancelar sua inscrição</a>.
+          </p>
         </div>
+      `
+    };
 
-        <p>Acesse o nosso portal para ler as responsabilidades, requisitos e se candidatar pelo Pipefy.</p>
-        <p><a href="${process.env.FRONTEND_URL || 'http://localhost:3000'}/index.html" style="background-color: #b8e900; color: #000; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold;">Ver vagas abertas</a></p>
+    try {
+      console.log(`Tentando enviar e-mail para SMTP (${email})...`);
+      const info = await transporter.sendMail(mailOptions);
+      console.log(`✅ E-mail enviado para ${email}: ${info.messageId}`);
+    } catch (error) {
+      console.error(`❌ Erro ao enviar para ${email}:`, error.message);
+    }
+  });
 
-        <p style="margin-top: 30px; font-size: 12px; color: #777;">
-          Você está recebendo este e-mail porque se inscreveu na nossa Newsletter de Carreiras.<br>
-          Se não deseja mais receber avisos, ignore esta mensagem.
-        </p>
-      </div>
-    `
-  };
-
-  try {
-    console.log(`Tentando enviar e-mails via SMTP (${process.env.SMTP_HOST}:${process.env.SMTP_PORT}, secure=${process.env.SMTP_SECURE})...`);
-    const info = await transporter.sendMail(mailOptions);
-    console.log("✅ Emails enviados com sucesso: %s", info.messageId);
-    return info;
-  } catch (error) {
-    console.error("❌ Erro ao enviar e-mails de aviso:");
-    console.error("Mensagem:", error.message);
-    console.error("Código:", error.code);
-    console.error("Comando SMTP:", error.command);
-    throw error; // Re-lança para que o controller saiba que falhou
-  }
+  // Aguarda todos os envios (ou falhas individuais)
+  await Promise.all(promises);
 };

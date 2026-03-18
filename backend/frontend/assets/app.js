@@ -13,10 +13,37 @@ function openVacancyModal(v) {
     if ($("mSub")) $("mSub").textContent = subInfo;
 
     // CAMPOS COM QUEBRA DE LINHA E OCULTAÇÃO DE BLOCOS VAZIOS
+    const formatText = (t) => {
+        if (!t) return "";
+        // Transforma **texto** em <strong>texto</strong>
+        let formatted = t.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        // Transforma linhas iniciadas com "- " ou "* " em lista <ul>
+        const lines = formatted.split('\n');
+        let inList = false;
+        const result = lines.map(line => {
+            if (line.trim().startsWith('- ') || line.trim().startsWith('* ')) {
+                const content = line.trim().substring(2);
+                if (!inList) {
+                    inList = true;
+                    return `<ul style="margin: 5px 0; padding-left: 20px;"><li>${content}</li>`;
+                }
+                return `<li>${content}</li>`;
+            } else {
+                if (inList) {
+                    inList = false;
+                    return `</ul>${line}<br>`;
+                }
+                return line + "<br>";
+            }
+        });
+        if (inList) result.push('</ul>');
+        return result.join('');
+    };
+
     const setBlock = (id, text) => {
         const p = $(id);
         if (p) {
-            p.innerText = text || "";
+            p.innerHTML = formatText(text) || "";
             const bloco = p.closest('.vaga-bloco');
             if (bloco) {
                 bloco.style.display = text ? 'block' : 'none';
@@ -85,7 +112,9 @@ function renderVagas() {
 
         lista.innerHTML = `
             <div style="grid-column: 1/-1; text-align: center; padding: 50px 20px; color: var(--muted); background: var(--card); border-radius: 12px; border: 1px dashed var(--border);">
-                <div style="font-size: 3rem; margin-bottom: 10px; opacity: 0.5;">📭</div>
+                <div style="width: 60px; height: 60px; margin: 0 auto 10px; opacity: 0.5;">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/></svg>
+                </div>
                 <h3 style="color: var(--text); margin: 0 0 10px;">Ops!</h3>
                 <p style="margin: 0;">${msg}</p>
             </div>

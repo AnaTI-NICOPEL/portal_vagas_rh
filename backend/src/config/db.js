@@ -54,6 +54,9 @@ export const initDb = async () => {
         IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='vagas' AND column_name='remuneracao') THEN
           ALTER TABLE vagas ADD COLUMN remuneracao TEXT;
         END IF;
+        IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='vagas' AND column_name='pipefy_record_id') THEN
+          ALTER TABLE vagas ADD COLUMN pipefy_record_id TEXT;
+        END IF;
       END $$;
 
       CREATE TABLE IF NOT EXISTS newsletter (
