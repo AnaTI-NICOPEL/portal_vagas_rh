@@ -712,7 +712,14 @@ button:hover { filter: brightness(1.1); transform: scale(1.02); }
   left: 15px;
   top: 50%;
   transform: translateY(-50%);
-  opacity: 0.5;
+  width: 18px;
+  height: 18px;
+  color: var(--muted);
+  pointer-events: none;
+  transition: color 0.3s ease;
+}
+.search-input:focus + .search-icon {
+  color: var(--brand);
 }
 
 .loading-message {

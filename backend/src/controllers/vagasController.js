@@ -47,7 +47,7 @@ export const criarVaga = async (req, res) => {
       if (inscritos && inscritos.length > 0) {
         const listaEmails = inscritos.map(row => row.email);
         console.log(`Disparando email sobre a vaga "${titulo}" para ${listaEmails.length} inscritos.`);
-        enviarAvisoNovaVaga(listaEmails, titulo, setor);
+        await enviarAvisoNovaVaga(listaEmails, titulo, setor);
       }
     } catch (emailError) {
       console.error("Erro ao buscar e-mails para disparar avisos:", emailError);

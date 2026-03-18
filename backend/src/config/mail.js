@@ -3,6 +3,12 @@ import nodemailer from "nodemailer";
 // Configuração do transportador de e-mail usando Nodemailer
 // Em produção, isso deve ser configurado no .env com os dados do seu provedor SMTP (Gmail, SendGrid, Hostinger, etc)
 
+const requiredEnvVars = ['SMTP_HOST', 'SMTP_PORT', 'SMTP_USER', 'SMTP_PASS'];
+const missingVars = requiredEnvVars.filter(v => !process.env[v]);
+if (missingVars.length > 0) {
+  console.error("⚠️ Aviso: As seguintes variáveis de ambiente SMTP estão faltando:", missingVars.join(', '));
+}
+
 export const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
   port: parseInt(process.env.SMTP_PORT || '587'),
@@ -45,10 +51,15 @@ export const enviarAvisoNovaVaga = async (listaEmails, tituloVaga, setor) => {
   };
 
   try {
+    console.log("Tentando enviar e-mails via SMTP...");
     const info = await transporter.sendMail(mailOptions);
-    console.log("Emails enviados com sucesso: %s", info.messageId);
+    console.log("✅ Emails enviados com sucesso: %s", info.messageId);
     return info;
   } catch (error) {
-    console.error("Erro ao enviar e-mails de aviso:", error);
+    console.error("❌ Erro ao enviar e-mails de aviso:");
+    console.error("Mensagem:", error.message);
+    console.error("Código:", error.code);
+    console.error("Comando SMTP:", error.command);
+    throw error; // Re-lança para que o controller saiba que falhou
   }
 };
