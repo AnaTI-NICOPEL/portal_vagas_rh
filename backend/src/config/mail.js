@@ -17,8 +17,10 @@ export const transporter = nodemailer.createTransport({
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS
   },
-  connectionTimeout: 10000, // 10 segundos para conectar
-  greetingTimeout: 10000,   // 10 segundos para o "olá" do servidor
+  connectionTimeout: 20000, // 20 segundos para conectar
+  greetingTimeout: 20000,   // 20 segundos para o "olá" do servidor
+  socketTimeout: 20000,     // 20 segundos de timeout de socket
+  family: 4,                // Força o uso de IPv4 (muito importante para evitar timeouts em nuvem)
   tls: {
     rejectUnauthorized: false // Ajuda em alguns ambientes de rede restritos
   },
@@ -58,7 +60,7 @@ export const enviarAvisoNovaVaga = async (listaEmails, tituloVaga, setor) => {
   };
 
   try {
-    console.log("Tentando enviar e-mails via SMTP...");
+    console.log(`Tentando enviar e-mails via SMTP (${process.env.SMTP_HOST}:${process.env.SMTP_PORT}, secure=${process.env.SMTP_SECURE})...`);
     const info = await transporter.sendMail(mailOptions);
     console.log("✅ Emails enviados com sucesso: %s", info.messageId);
     return info;
