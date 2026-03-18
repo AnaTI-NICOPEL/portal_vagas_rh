@@ -11,11 +11,16 @@ if (missingVars.length > 0) {
 
 export const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
-  port: parseInt(process.env.SMTP_PORT || '587'),
+  port: parseInt(process.env.SMTP_PORT || '465'),
   secure: process.env.SMTP_SECURE === 'true', // true para porta 465, false para outras
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS
+  },
+  connectionTimeout: 10000, // 10 segundos para conectar
+  greetingTimeout: 10000,   // 10 segundos para o "olá" do servidor
+  tls: {
+    rejectUnauthorized: false // Ajuda em alguns ambientes de rede restritos
   },
   debug: true, // Adiciona logs detalhados do SMTP
   logger: true  // Mostra a conversa com o servidor no console
