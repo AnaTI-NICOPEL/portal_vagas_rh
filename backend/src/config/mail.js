@@ -16,7 +16,9 @@ export const transporter = nodemailer.createTransport({
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS
-  }
+  },
+  debug: true, // Adiciona logs detalhados do SMTP
+  logger: true  // Mostra a conversa com o servidor no console
 });
 
 // Função para enviar os avisos de novas vagas em cópia oculta (BCC)
