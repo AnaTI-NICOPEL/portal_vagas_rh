@@ -1,7 +1,6 @@
 import pkg from "pg";
 // Garante que o banco seja inicializado. As variáveis vêm do entry point.
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+
 
 const { Pool } = pkg;
 
