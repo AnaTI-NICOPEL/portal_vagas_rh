@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
-    "build": "echo 'No build step required'"
+    "build": "echo 'No build step required'",
+    "dev": "node index.js"
   },
   "license": "MIT",
   "dependencies": {
