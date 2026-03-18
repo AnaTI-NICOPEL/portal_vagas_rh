@@ -36,11 +36,8 @@ function openVacancyModal(v) {
                     inList = false;
                     out += `</ul>`;
                 }
-                // Se a linha não tem tags de negrito mas o usuário quer "em negrito", 
-                // talvez devêssemos considerar se a linha inteira deve ser negrito?
-                // O usuário disse: "quero que por ex as responsabilidades colocadas estejam em negirtos"
-                // Vou aplicar um bold suave ou garantir que o strong funcione bem.
-                return out + trimmedLine + "<br>";
+                // Force bold for all lines as requested
+                return out + `<strong>${trimmedLine}</strong><br>`;
             }
         });
         if (inList) result.push('</ul>');
