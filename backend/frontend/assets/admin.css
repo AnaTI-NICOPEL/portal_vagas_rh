@@ -180,6 +180,7 @@ button, .btn {
   box-shadow: none !important;
   filter: none !important;
   transition: transform 0.2s ease;
+  color: var(--text) !important;
 }
 
 .job-actions button:hover {
@@ -324,3 +325,11 @@ button, .btn {
   margin-top: 40px;
 }
 
+/* Theme Toggle SVGs (Shared between pages) */
+.theme-toggle svg, .pill svg {
+  width: 20px;
+  height: 20px;
+  display: none;
+}
+body.dark .sun-icon { display: block !important; }
+body:not(.dark) .moon-icon { display: block !important; }

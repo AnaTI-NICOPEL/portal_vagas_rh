@@ -273,3 +273,11 @@ body:not(.dark) .login-card input {
   border-color: var(--brand);
 }
 
+/* Theme Toggle SVGs (Shared between pages) */
+.theme-toggle svg, .pill svg {
+  width: 20px;
+  height: 20px;
+  display: none;
+}
+body.dark .sun-icon { display: block !important; }
+body:not(.dark) .moon-icon { display: block !important; }

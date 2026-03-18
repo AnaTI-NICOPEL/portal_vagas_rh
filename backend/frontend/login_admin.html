@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Login Admin</title>
-  <link rel="stylesheet" href="./assets/login_admin.css">
+  <link rel="stylesheet" href="./assets/login_admin.css?v=2">
 </head>
 <body>
   <div class="container">
     <header class="login-header">
       <button id="theme-toggle" type="button" class="pill" aria-label="Alternar tema">
-        <svg class="sun-icon" style="width:20px;height:20px;display:none;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 5a7 7 0 100 14 7 7 0 000-14z"/></svg>
-        <svg class="moon-icon" style="width:20px;height:20px;display:none;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 5a7 7 0 100 14 7 7 0 000-14z"/></svg>
+        <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
       </button>
       <button type="button" class="pill" id="btnLogout">Sair</button>
     </header>
@@ -46,7 +46,7 @@
     </div>
   </div>
 
-  <script src="./assets/login_admin.js"></script>
+  <script src="./assets/login_admin.js?v=2"></script>
   <script>
     const toggle = document.getElementById("theme-toggle");
     const body = document.body;
@@ -57,14 +57,6 @@
     function updateTheme(theme) {
       const isDark = theme === "dark";
       body.classList.toggle("dark", isDark);
-      
-      const sun = toggle.querySelector('.sun-icon');
-      const moon = toggle.querySelector('.moon-icon');
-      if (sun && moon) {
-        sun.style.display = isDark ? "block" : "none";
-        moon.style.display = isDark ? "none" : "block";
-      }
-
       if (logo) logo.src = isDark ? logoDark : logoLight;
       localStorage.setItem("theme", theme);
     }

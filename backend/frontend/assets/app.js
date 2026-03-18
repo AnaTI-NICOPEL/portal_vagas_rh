@@ -21,19 +21,26 @@ function openVacancyModal(v) {
         const lines = formatted.split('\n');
         let inList = false;
         const result = lines.map(line => {
-            if (line.trim().startsWith('- ') || line.trim().startsWith('* ')) {
-                const content = line.trim().substring(2);
+            const trimmedLine = line.trim();
+            if (!trimmedLine) return "<br>";
+            if (trimmedLine.startsWith('-') || trimmedLine.startsWith('*')) {
+                const content = trimmedLine.replace(/^[-*]\s*/, "");
                 if (!inList) {
                     inList = true;
-                    return `<ul style="margin: 5px 0; padding-left: 20px;"><li>${content}</li>`;
+                    return `<ul style="margin: 10px 0; padding-left: 20px; color: var(--text);"><li><strong>${content}</strong></li>`;
                 }
-                return `<li>${content}</li>`;
+                return `<li><strong>${content}</strong></li>`;
             } else {
+                let out = "";
                 if (inList) {
                     inList = false;
-                    return `</ul>${line}<br>`;
+                    out += `</ul>`;
                 }
-                return line + "<br>";
+                // Se a linha não tem tags de negrito mas o usuário quer "em negrito", 
+                // talvez devêssemos considerar se a linha inteira deve ser negrito?
+                // O usuário disse: "quero que por ex as responsabilidades colocadas estejam em negirtos"
+                // Vou aplicar um bold suave ou garantir que o strong funcione bem.
+                return out + trimmedLine + "<br>";
             }
         });
         if (inList) result.push('</ul>');
