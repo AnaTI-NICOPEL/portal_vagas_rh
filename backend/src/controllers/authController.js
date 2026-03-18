@@ -5,6 +5,7 @@ export const login = (req, res) => {
 
   const ADMIN_USER = process.env.ADMIN_USER;
   const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+  const secret = process.env.JWT_SECRET;
   // Verificação de segurança para configuração do servidor
   if (!secret || !ADMIN_USER || !ADMIN_PASSWORD) {
     console.error("DEBUG RENDER: ADMIN_USER:", !!ADMIN_USER, "ADMIN_PASSWORD:", !!ADMIN_PASSWORD, "JWT_SECRET:", !!secret);

@@ -15,7 +15,7 @@ app.use(cors()); // Permite CORS padrão
 app.use(express.json());
 
 // Servir arquivos estáticos do frontend (mesma pasta superior)
-app.use(express.static(path.join(__dirname, "../frontend"))); 
+app.use(express.static(path.join(__dirname, "./frontend"))); 
 
 // Usar rotas da API
 app.use("/api", apiRoutes);
