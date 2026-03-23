@@ -65,9 +65,11 @@ export async function createPipefyJobRecord({ titulo, setor }) {
 
 export async function updatePipefyJobRecord(pipefyId, { titulo, setor }) {
   if (!pipefyId) return null;
-  const mutation = `mutation { updateTableRecord(input: { id: ${gqlString(pipefyId)}, title: ${gqlString(titulo)}, 
-    fields_attributes: [{field_id: ${gqlString(PIPEFY_VAGA_FIELD_CARGO)}, field_value: ${gqlString(titulo)}},
-    {field_id: ${gqlString(PIPEFY_VAGA_FIELD_DEPARTAMENTO)}, field_value: ${gqlString(setor)}}] }) { table_record { id } } }`;
+  const mutation = `mutation { 
+    updateTableRecord(input: { id: ${gqlString(pipefyId)}, title: ${gqlString(titulo)} }) { table_record { id } }
+    setCargo: setTableRecordFieldValue(input: { table_record_id: ${gqlString(pipefyId)}, field_id: ${gqlString(PIPEFY_VAGA_FIELD_CARGO)}, value: ${gqlString(titulo)} }) { table_record { id } }
+    setDepto: setTableRecordFieldValue(input: { table_record_id: ${gqlString(pipefyId)}, field_id: ${gqlString(PIPEFY_VAGA_FIELD_DEPARTAMENTO)}, value: ${gqlString(setor)} }) { table_record { id } }
+  }`;
   const data = await pipefyRequest(mutation);
   return data?.updateTableRecord?.table_record?.id || null;
 }
