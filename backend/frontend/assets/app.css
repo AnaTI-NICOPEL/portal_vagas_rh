@@ -361,7 +361,7 @@ body:not(.dark) section {
 
 #institutional .section-header p {
   font-weight: 400;
-  color: #000;
+  color: var(--text); /* Safe for dark mode */
 }
 
 .card-identidade h3 { 
