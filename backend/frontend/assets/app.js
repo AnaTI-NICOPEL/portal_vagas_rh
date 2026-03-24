@@ -17,31 +17,22 @@ function openVacancyModal(v) {
         if (!t) return "";
         // Transforma **texto** em <strong>texto</strong>
         let formatted = t.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        // Transforma linhas iniciadas com "- " ou "* " em lista <ul>
-        const lines = formatted.split('\n');
-        let inList = false;
-        const result = lines.map(line => {
-            const trimmedLine = line.trim();
-            if (!trimmedLine) return "<br>";
-            if (trimmedLine.startsWith('-') || trimmedLine.startsWith('*')) {
-                const content = trimmedLine.replace(/^[-*]\s*/, "");
-                if (!inList) {
-                    inList = true;
-                    return `<ul style="margin: 10px 0; padding-left: 20px; color: var(--text);"><li><strong>${content}</strong></li>`;
-                }
-                return `<li><strong>${content}</strong></li>`;
-            } else {
-                let out = "";
-                if (inList) {
-                    inList = false;
-                    out += `</ul>`;
-                }
-                // Force bold for all lines as requested
-                return out + `<strong>${trimmedLine}</strong><br>`;
-            }
-        });
-        if (inList) result.push('</ul>');
-        return result.join('');
+        
+        // Separa por quebra de linha, limpa espaços e remove linhas vazias
+        const lines = formatted.split('\n').map(l => l.trim()).filter(Boolean);
+        
+        if (lines.length === 0) return "";
+        
+        // Se houver apenas uma linha e ela não começar com marcador, retorna texto simples (mas em negrito se desejar manter o padrão anterior, porém o usuário pediu "ponto simples")
+        // Vou seguir a sugestão do usuário de usar pontos simples para tudo que for lista
+        
+        return `<ul style="margin: 10px 0; padding-left: 20px; list-style-type: disc; color: var(--text);">` + 
+            lines.map(line => {
+                // Remove marcadores existentes (- ou *) para evitar duplicidade
+                const content = line.replace(/^[-*•]\s*/, "");
+                return `<li style="margin-bottom: 5px;">${content}</li>`;
+            }).join('') + 
+            `</ul>`;
     };
 
     const setBlock = (id, text) => {
