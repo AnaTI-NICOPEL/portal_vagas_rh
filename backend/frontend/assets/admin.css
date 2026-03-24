@@ -247,18 +247,35 @@ button, .btn {
 .admin-page .form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 20px; /* Increased gap */
   background: rgba(128,128,128,0.05);
-  padding: 25px;
+  padding: 30px; /* More padding */
   border-radius: 12px;
   border: 1px solid rgba(128,128,128,0.1);
+}
+
+.admin-page .row {
+  display: flex;
+  gap: 15px;
+}
+
+/* On mobile, stack rows */
+@media (max-width: 600px) {
+  .admin-page .row {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+.admin-page .full-row, .admin-page .row > div {
+  width: 100%;
 }
 
 .admin-page label {
   font-size: 11px;
   text-transform: uppercase;
   font-weight: 700;
-  margin-bottom: 5px;
+  margin-bottom: 8px; /* Increased margin */
   display: block;
   opacity: 0.8;
 }
@@ -266,12 +283,17 @@ button, .btn {
 .admin-page input, 
 .admin-page select, 
 .admin-page textarea {
-  padding: 12px;
+  padding: 14px; /* More padding */
   font-size: 14px;
-  border-radius: 8px;
+  border-radius: 10px; /* Rounder */
   border: 1px solid rgba(128,128,128,0.2);
   background-color: var(--card2);
   color: var(--text);
+}
+
+.admin-page textarea {
+  min-height: 120px;
+  resize: vertical;
 }
 
 .admin-page select option {
@@ -282,7 +304,7 @@ button, .btn {
 .admin-page .jobRow {
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(128,128,128,0.2);
-  padding: 15px 25px;
+  padding: 18px 25px;
   border-radius: 12px;
 }
 
@@ -291,8 +313,16 @@ button, .btn {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
+@media (max-width: 480px) {
+  .admin-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+}
+
 .admin-brand-group {
   display: flex;
   align-items: center;
@@ -301,19 +331,26 @@ button, .btn {
 .admin-panel-title {
   font-size: 1.3rem; 
   margin: 0;
+  white-space: nowrap;
 }
 .admin-actions-group {
   display: flex;
   gap: 10px;
 }
 .admin-form-title {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   margin-bottom: 5px;
+  font-weight: 800;
 }
 .admin-form-footer {
   display: flex;
-  gap: 10px;
-  margin-top: 10px;
+  gap: 15px;
+  margin-top: 15px;
+}
+@media (max-width: 480px) {
+  .admin-form-footer {
+    flex-direction: column;
+  }
 }
 .btn-submit {
   flex: 2;
