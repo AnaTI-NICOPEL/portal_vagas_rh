@@ -335,6 +335,32 @@ body:not(.dark) section {
   font-weight: 800; /* Extra bold for visibility */
 }
 
+/* Modal Vacancy Title */
+.candidate-modal-header h2 {
+  font-weight: 800;
+  font-size: 1.8rem;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+/* Institutional and Identification Cards */
+#institutional .section-header h2 {
+  color: var(--brand); /* Nicopel Green */
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+#institutional .section-header p {
+  font-weight: 400;
+  color: #000;
+}
+
+.card-identidade h3 { 
+  font-weight: 900; 
+  font-size: 1.4rem; /* Larger */
+}
+
 .vaga-bloco b, .vaga-bloco strong {
   color: var(--brand2);
 }
@@ -349,6 +375,12 @@ body:not(.dark) section {
 }
 .vaga-bloco ul { margin: 10px 0; padding-left: 25px; color: var(--text); }
 .vaga-bloco li { margin-bottom: 5px; }
+
+/* Hero Title Bold */
+#hero h1 { 
+  font-weight: 900; 
+  letter-spacing: -2px;
+}
 
 .pipefy-notice { display: none; margin-top: 25px; padding: 20px; background: var(--card2); border-radius: 14px; border: 1px dashed var(--brand); text-align:center; }
 .pipefy-btn { text-decoration: none; display: inline-block; padding: 12px 30px; background: var(--brand); color: #000; font-weight: 700; border-radius: 12px; }
@@ -375,7 +407,6 @@ body:not(.dark) section {
 }
 
 /* FOOTER */
-/* Note: The previous edit might have lost the original footer styles. I will restore a clean version. */
 footer.bg-black {
   background: #000;
   color: #fff;
@@ -390,13 +421,13 @@ footer.bg-black {
   .site-logo { height: 32px; }
   
   #hero { padding: 40px 20px; }
-  #hero h1 { font-size: 1.8rem; }
+  #hero h1 { font-size: 2.2rem; font-weight: 900; }
   
   .section-header-flex { flex-direction: column; align-items: stretch; }
   .search-wrapper { max-width: none; }
   
   .candidate-modal { padding: 25px 20px; }
-  .candidate-modal-header h2 { font-size: 1.4rem; }
+  .candidate-modal-header h2 { font-size: 1.6rem; font-weight: 800; }
   
   .features-grid, .institucional-container { grid-template-columns: 1fr; }
   .vacancy-card { padding: 20px; }
