@@ -4,10 +4,68 @@ let termoPesquisa = "";
 
 const $ = (id) => document.getElementById(id);
 
+function startIntermediaryLoading() {
+    const overlay = $("loading-overlay");
+    const bar = $("progress-bar");
+    const text = $("progress-text");
+    const loadingLogo = $("loading-site-logo");
+    const linkFixo = "https://app.pipefy.com/public/form/o2Oed2xe";
+
+    if (!overlay || !bar || !text) return;
+
+    // Sincronizar logo com o tema atual
+    if (loadingLogo) {
+        const isDark = document.body.classList.contains("dark");
+        const logoLight = "https://i.ibb.co/zWJstk81/logo-nicopel-8.png";
+        const logoDark = "https://i.ibb.co/nLkLD0f/GRUPO-NICOPEL-1.png";
+        loadingLogo.src = isDark ? logoDark : logoLight;
+    }
+
+    overlay.style.display = "flex";
+    bar.style.width = "0%";
+    text.textContent = "Preparando formulário... 0%";
+
+    const duration = 4000; // 3000ms = 3s
+    const interval = 50;
+    let elapsed = 0;
+
+    const timer = setInterval(() => {
+        elapsed += interval;
+        const progress = Math.min((elapsed / duration) * 100, 100);
+        bar.style.width = `${progress}%`;
+        text.textContent = `Preparando formulário... ${Math.round(progress)}%`;
+
+        if (progress >= 100) {
+            clearInterval(timer);
+
+            // Mostrar o link manual caso o redirecionamento automático falhe
+            const fallback = $("loading-fallback");
+            if (fallback) fallback.style.display = "block";
+
+            // Tenta abrir em nova aba. Se falhar, usa window.location.href (mesma aba)
+            try {
+                const newWindow = window.open(linkFixo, "_blank");
+                if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
+                    window.location.href = linkFixo;
+                }
+            } catch (err) {
+                window.location.href = linkFixo;
+            }
+
+            text.textContent = "Redirecionando...";
+
+            setTimeout(() => {
+                overlay.style.display = "none";
+                closeModal();
+            }, 3000);
+        }
+    }, interval);
+}
+
 function openVacancyModal(v) {
     // Títulos e Subtítulos
     if ($("mTitle")) $("mTitle").textContent = v.titulo;
-    
+
     // Monta o subtítulo com Setor, Experiência e Tipo de Emprego
     const subInfo = [v.setor, v.experiencia, v.tipo_emprego].filter(Boolean).join(" | ");
     if ($("mSub")) $("mSub").textContent = subInfo;
@@ -17,21 +75,18 @@ function openVacancyModal(v) {
         if (!t) return "";
         // Transforma **texto** em <strong>texto</strong>
         let formatted = t.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        
+
         // Separa por quebra de linha, limpa espaços e remove linhas vazias
         const lines = formatted.split('\n').map(l => l.trim()).filter(Boolean);
-        
+
         if (lines.length === 0) return "";
-        
-        // Se houver apenas uma linha e ela não começar com marcador, retorna texto simples (mas em negrito se desejar manter o padrão anterior, porém o usuário pediu "ponto simples")
-        // Vou seguir a sugestão do usuário de usar pontos simples para tudo que for lista
-        
-        return `<ul style="margin: 10px 0; padding-left: 20px; list-style-type: disc; color: var(--text);">` + 
+
+        return `<ul style="margin: 10px 0; padding-left: 20px; list-style-type: disc; color: var(--text);">` +
             lines.map(line => {
                 // Remove marcadores existentes (- ou *) para evitar duplicidade
                 const content = line.replace(/^[-*•]\s*/, "");
                 return `<li style="margin-bottom: 5px;">${content}</li>`;
-            }).join('') + 
+            }).join('') +
             `</ul>`;
     };
 
@@ -53,19 +108,21 @@ function openVacancyModal(v) {
 
     const pRemun = $("mRemuneracao");
     if (pRemun) {
-       pRemun.innerText = v.remuneracao || "A combinar";
-       const blocoRemun = pRemun.closest('.vaga-bloco');
-       if(blocoRemun) blocoRemun.style.display = 'block';
+        pRemun.innerText = v.remuneracao || "A combinar";
+        const blocoRemun = pRemun.closest('.vaga-bloco');
+        if (blocoRemun) blocoRemun.style.display = 'block';
     }
 
     // Link Pipefy
     const blocoLink = $("bloco-link-pipefy");
     const linkBtn = $("mLinkPipefy");
-    const linkFixo = "https://app.pipefy.com/public/form/o2Oed2xe";
 
     if (blocoLink && linkBtn) {
         blocoLink.style.display = "block";
-        linkBtn.href = linkFixo;
+        linkBtn.onclick = (e) => {
+            e.preventDefault();
+            startIntermediaryLoading();
+        };
     }
 
     if ($("backdrop")) $("backdrop").style.display = "flex";
@@ -92,10 +149,10 @@ function renderVagas() {
     const lista = $("lista-vagas");
     if (!lista) return;
     lista.innerHTML = "";
-    
+
     const termo = termoPesquisa.toLowerCase().trim();
-    const vagasFiltradas = vagas.filter(v => 
-        (v.titulo && v.titulo.toLowerCase().includes(termo)) || 
+    const vagasFiltradas = vagas.filter(v =>
+        (v.titulo && v.titulo.toLowerCase().includes(termo)) ||
         (v.setor && v.setor.toLowerCase().includes(termo)) ||
         (v.atividades && v.atividades.toLowerCase().includes(termo)) ||
         (v.funcao && v.funcao.toLowerCase().includes(termo))
@@ -142,7 +199,7 @@ function setupAutoOpen() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 cards.forEach(card => card.classList.add('aberto'));
-                observer.unobserve(entry.target); 
+                observer.unobserve(entry.target);
             }
         });
     }, { threshold: 0.3 });
@@ -154,7 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Modal
     if ($("mClose")) $("mClose").onclick = closeModal;
     if ($("backdrop")) {
-        $("backdrop").onclick = (e) => { if(e.target.id === "backdrop") closeModal(); };
+        $("backdrop").onclick = (e) => { if (e.target.id === "backdrop") closeModal(); };
     }
 
     const cards = document.querySelectorAll(".card-identidade");

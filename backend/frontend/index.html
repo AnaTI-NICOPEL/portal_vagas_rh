@@ -230,6 +230,24 @@
         document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>
 
+    <!-- Intermediary Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-card">
+            <div class="loading-logo">
+                <img src="https://i.ibb.co/zWJstk81/logo-nicopel-8.png" alt="Logo Nicopel" id="loading-site-logo" />
+            </div>
+            <p class="loading-message-text">Após realizar sua candidatura acompanhe o status através do link enviado no seu email!</p>
+            <p class="loading-signature">- Grupo Nicopel</p>
+            <div class="progress-container">
+                <div id="progress-bar" class="progress-bar"></div>
+            </div>
+            <p id="progress-text" class="progress-text">Preparando formulário... 0%</p>
+            <div id="loading-fallback" style="display:none; margin-top: 15px;">
+                <a href="https://app.pipefy.com/public/form/o2Oed2xe" class="pipefy-btn" style="font-size: 0.8rem; padding: 10px 20px;">Clique aqui se não for redirecionado</a>
+            </div>
+        </div>
+    </div>
+
     <script src="./assets/app.js?v=4"></script>
     <script>
         // Inline Theme Toggle Logic (to prevent flash)
