@@ -11,6 +11,11 @@
     <meta property="og:title" content="Portal de Vagas | Grupo Nicopel">
     <meta property="og:image" content="https://i.ibb.co/ZpxPhvnf/imagem.png">
     <link rel="icon" type="image/png" href="https://i.ibb.co/ZpxPhvnf/imagem.png">
+    
+    <!-- Google Fonts: Inter (LinkedIn Style) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <header class="topbar">
@@ -114,12 +119,9 @@
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:24px;height:24px"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                 </button>
             </div>
-            <div class="vaga-detalhes">
-                <div class="vaga-bloco"><h3>Principais Responsabilidades</h3><div id="mDescricao"></div></div>
-                <div class="vaga-bloco"><h3>Requisitos</h3><div id="mRequisitos"></div></div>
-                <div class="vaga-bloco"><h3>Competências Comportamentais</h3><div id="mCompetencias"></div></div>
-                <div class="vaga-bloco"><h3>Remuneração</h3><div id="mRemuneracao"></div></div>
-                <div class="vaga-bloco"><h3>Benefícios</h3><div id="mBeneficios"></div></div>
+            <div class="vaga-detalhes" id="mDescricaoCompleta">
+                <!-- Conteúdo será preenchido dinamicamente via JS -->
+            </div>
                 <div id="bloco-link-pipefy" class="pipefy-notice">
                     <h3>Formulário de Candidatura</h3>
                     <p>Para se candidatar, clique no botão abaixo:</p>

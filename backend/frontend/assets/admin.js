@@ -11,10 +11,6 @@ const vagaIdInput = document.getElementById("vagaId");
 const tituloInput = document.getElementById("titulo");
 const setorInput = document.getElementById("setor");
 const atividadesInput = document.getElementById("atividades");
-const requisitosInput = document.getElementById("requisitos");
-const competenciasInput = document.getElementById("competencias");
-const remuneracaoInput = document.getElementById("remuneracao");
-const beneficiosInput = document.getElementById("beneficios");
 
 // Novos inputs adicionados
 const experienciaInput = document.getElementById("experiencia");
@@ -56,10 +52,6 @@ window.fillForm = (id) => {
   tituloInput.value = v.titulo;
   setorInput.value = v.setor;
   atividadesInput.value = v.atividades;
-  requisitosInput.value = v.requisitos || "";
-  competenciasInput.value = v.competencias || "";
-  remuneracaoInput.value = v.remuneracao || "";
-  beneficiosInput.value = v.beneficios;
   
   // Novos campos
   experienciaInput.value = v.experiencia || "";
@@ -87,10 +79,10 @@ form.addEventListener("submit", async (e) => {
       titulo: tituloInput.value,
       setor: setorInput.value,
       atividades: atividadesInput.value,
-      requisitos: requisitosInput.value,
-      competencias: competenciasInput.value,
-      remuneracao: remuneracaoInput.value,
-      beneficios: beneficiosInput.value,
+      requisitos: "",
+      competencias: "",
+      remuneracao: "",
+      beneficios: "",
       experiencia: experienciaInput.value,
       funcao: funcaoInput.value,
       tipo_emprego: tipoEmpregoInput.value,

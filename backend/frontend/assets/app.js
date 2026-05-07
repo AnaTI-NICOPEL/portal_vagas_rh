@@ -63,54 +63,47 @@ function startIntermediaryLoading() {
 }
 
 function openVacancyModal(v) {
-    // Títulos e Subtítulos
     if ($("mTitle")) $("mTitle").textContent = v.titulo;
 
-    // Monta o subtítulo com Setor, Experiência e Tipo de Emprego
     const subInfo = [v.setor, v.experiencia, v.tipo_emprego].filter(Boolean).join(" | ");
     if ($("mSub")) $("mSub").textContent = subInfo;
 
-    // CAMPOS COM QUEBRA DE LINHA E OCULTAÇÃO DE BLOCOS VAZIOS
-    const formatText = (t) => {
-        if (!t) return "";
-        // Transforma **texto** em <strong>texto</strong>
-        let formatted = t.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    const container = $("mDescricaoCompleta");
+    if (container) {
+        const fullText = v.atividades || "";
+        const lines = fullText.split("\n").map(l => l.trim()).filter(l => l.length > 0);
+        
+        let htmlContent = "";
+        let inList = false;
+        const keywords = ["responsabilidades", "requisitos", "competências", "benefícios", "remuneração", "atividades", "o que buscamos", "o que oferecemos"];
 
-        // Separa por quebra de linha, limpa espaços e remove linhas vazias
-        const lines = formatted.split('\n').map(l => l.trim()).filter(Boolean);
+        lines.forEach(line => {
+            const lowerLine = line.toLowerCase();
+            
+            // É cabeçalho se termina com : OU é uma das palavras chave em linha curta OU está toda em maiúsculo (e não é curta demais)
+            const isHeaderLine = line.endsWith(":") || 
+                                keywords.some(kw => lowerLine.includes(kw) && line.length < kw.length + 10) ||
+                                (line.length > 3 && line === line.toUpperCase() && line.length < 40);
 
-        if (lines.length === 0) return "";
-
-        return `<ul style="margin: 10px 0; padding-left: 20px; list-style-type: disc; color: var(--text);">` +
-            lines.map(line => {
-                // Remove marcadores existentes (- ou *) para evitar duplicidade
-                const content = line.replace(/^[-*•]\s*/, "");
-                return `<li style="margin-bottom: 5px;">${content}</li>`;
-            }).join('') +
-            `</ul>`;
-    };
-
-    const setBlock = (id, text) => {
-        const p = $(id);
-        if (p) {
-            p.innerHTML = formatText(text) || "";
-            const bloco = p.closest('.vaga-bloco');
-            if (bloco) {
-                bloco.style.display = text ? 'block' : 'none';
+            if (isHeaderLine) {
+                if (inList) {
+                    htmlContent += "</ul>";
+                    inList = false;
+                }
+                const headerText = line.replace(/:$/, "");
+                htmlContent += `<h3>${headerText}</h3>`;
+            } else {
+                if (!inList) {
+                    htmlContent += `<ul>`;
+                    inList = true;
+                }
+                const cleanLine = line.replace(/^[-*•]\s*/, "");
+                htmlContent += `<li>${cleanLine}</li>`;
             }
-        }
-    };
+        });
 
-    setBlock("mDescricao", v.atividades);
-    setBlock("mRequisitos", v.requisitos);
-    setBlock("mCompetencias", v.competencias);
-    setBlock("mBeneficios", v.beneficios);
-
-    const pRemun = $("mRemuneracao");
-    if (pRemun) {
-        pRemun.innerText = v.remuneracao || "A combinar";
-        const blocoRemun = pRemun.closest('.vaga-bloco');
-        if (blocoRemun) blocoRemun.style.display = 'block';
+        if (inList) htmlContent += "</ul>";
+        container.innerHTML = htmlContent;
     }
 
     // Link Pipefy

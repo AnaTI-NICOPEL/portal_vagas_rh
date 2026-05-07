@@ -19,39 +19,50 @@ export const criarVaga = async (req, res) => {
       experiencia, funcao, tipo_emprego, setores_vaga
     } = req.body;
     
-    let pipefyRecordId = null;
-    try {
-      pipefyRecordId = await createPipefyJobRecord({ titulo, setor });
-    } catch (err) {
-      console.error("Erro ao criar record no Pipefy:", err);
-    }
-    
+    // Inserção no banco de dados (Prioridade)
     const { rows } = await pool.query(
       `INSERT INTO vagas (
         titulo, setor, atividades, requisitos, competencias, 
         remuneracao, beneficios, experiencia, funcao, 
-        tipo_emprego, setores_vaga, pipefy_record_id
-      ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING id`,
+        tipo_emprego, setores_vaga
+      ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING id`,
       [
         titulo, setor, atividades, requisitos, competencias, 
         remuneracao, beneficios, experiencia, funcao, 
-        tipo_emprego, setores_vaga, pipefyRecordId
+        tipo_emprego, setores_vaga
       ]
     );
     
-    res.json({ ok: true, id: rows[0].id, pipefyRecordId });
+    const vagaId = rows[0].id;
+    res.json({ ok: true, id: vagaId });
 
-    // --- Disparo de Email Asíncrono ---
-    try {
-      const { rows: inscritos } = await pool.query("SELECT email FROM newsletter");
-      if (inscritos && inscritos.length > 0) {
-        const listaEmails = inscritos.map(row => row.email);
-        console.log(`Disparando email sobre a vaga "${titulo}" para ${listaEmails.length} inscritos.`);
-        await enviarAvisoNovaVaga(listaEmails, titulo, setor);
+    // --- Processos em Segundo Plano (Não bloqueiam a resposta) ---
+    
+    // 1. Pipefy
+    (async () => {
+      try {
+        const pipefyRecordId = await createPipefyJobRecord({ titulo, setor });
+        if (pipefyRecordId) {
+          await pool.query("UPDATE vagas SET pipefy_record_id = $1 WHERE id = $2", [pipefyRecordId, vagaId]);
+        }
+      } catch (err) {
+        console.error("Erro assíncrono ao criar record no Pipefy:", err);
       }
-    } catch (emailError) {
-      console.error("Erro ao buscar e-mails para disparar avisos:", emailError);
-    }
+    })();
+
+    // 2. Email Marketing
+    (async () => {
+      try {
+        const { rows: inscritos } = await pool.query("SELECT email FROM newsletter");
+        if (inscritos && inscritos.length > 0) {
+          const listaEmails = inscritos.map(row => row.email);
+          console.log(`Disparando email sobre a vaga "${titulo}" para ${listaEmails.length} inscritos.`);
+          await enviarAvisoNovaVaga(listaEmails, titulo, setor);
+        }
+      } catch (emailError) {
+        console.error("Erro assíncrono ao disparar avisos de e-mail:", emailError);
+      }
+    })();
     
   } catch (e) {
     res.status(500).json({ error: e.message });
