@@ -80,18 +80,43 @@ function openVacancyModal(v) {
         lines.forEach(line => {
             const lowerLine = line.toLowerCase();
             
-            // É cabeçalho se termina com : OU é uma das palavras chave em linha curta OU está toda em maiúsculo (e não é curta demais)
+            // Verifica se a linha começa com uma palavra-chave seguida de dois pontos (ex: "Remuneração: a combinar")
+            let keywordFound = null;
+            for (const kw of keywords) {
+                if (lowerLine.startsWith(kw + ":") || lowerLine.startsWith(kw + " :")) {
+                    keywordFound = kw;
+                    break;
+                }
+            }
+
+            // É cabeçalho se termina com : OU é uma das palavras chave em linha curta OU está toda em maiúsculo
             const isHeaderLine = line.endsWith(":") || 
-                                keywords.some(kw => lowerLine.includes(kw) && line.length < kw.length + 10) ||
+                                (keywordFound && line.length < keywordFound.length + 15) ||
+                                keywords.some(kw => lowerLine === kw) ||
                                 (line.length > 3 && line === line.toUpperCase() && line.length < 40);
 
-            if (isHeaderLine) {
+            if (isHeaderLine || (keywordFound && line.includes(":"))) {
                 if (inList) {
                     htmlContent += "</ul>";
                     inList = false;
                 }
-                const headerText = line.replace(/:$/, "");
-                htmlContent += `<h3>${headerText}</h3>`;
+
+                if (keywordFound && line.includes(":") && !line.endsWith(":")) {
+                    // Caso "Remuneração: a combinar"
+                    const parts = line.split(":");
+                    const headerText = parts[0].trim();
+                    const remainingText = parts.slice(1).join(":").trim();
+                    
+                    htmlContent += `<h3>${headerText}</h3>`;
+                    if (remainingText) {
+                        htmlContent += `<ul><li>${remainingText}</li>`;
+                        inList = true;
+                    }
+                } else {
+                    // Caso cabeçalho normal
+                    const headerText = line.replace(/:$/, "");
+                    htmlContent += `<h3>${headerText}</h3>`;
+                }
             } else {
                 if (!inList) {
                     htmlContent += `<ul>`;
